@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package itextpdf_test;
+package OOP_PROJECT;
 
 import com.itextpdf.text.BadElementException;
 import java.io.IOException;

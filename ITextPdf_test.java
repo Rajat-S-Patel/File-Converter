@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package itextpdf_test;
+package OOP_PROJECT;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import java.util.Scanner;
  *
  * @author Rajat
  */
-public class ITextPdf_test {
+public class ITextPdf_test{
 
     /**
      * @param args the command line arguments
@@ -23,10 +23,12 @@ public class ITextPdf_test {
        
         FileConverter obj = new FileConverter();
         FileChooser chooser = new FileChooser();
-      
+      //String src="F:\\temp.txt";
+    //  Replace replace = new Replace(src,"main()","class{}");
+      //replace.replace();
         
         chooser.selectTextFiles(obj);
-//chooser.selectTextFiles(obj);
+        //chooser.selectTextFiles(obj);
 
     }
 

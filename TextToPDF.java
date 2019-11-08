@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package itextpdf_test;
+package OOP_PROJECT;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -20,6 +20,7 @@ import java.util.Scanner;
  * @author Rajat
  */
 public class TextToPDF {
+    
     
     public void convertTextToPDF(String src,String des){
          try {

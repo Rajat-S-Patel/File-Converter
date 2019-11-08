@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package itextpdf_test;
+package OOP_PROJECT;
 
 
 import com.itextpdf.io.image.ImageData;
@@ -49,11 +49,12 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
  *
  * @author Rajat
  */
-public class FileConverter {
-    private Document document;
-    private PdfWriter writer;
-    private FileReader reader;
-    
+public class FileConverter extends FileAndDocumentReader {
+   // private Document document;
+   // private PdfWriter writer;
+   // private FileReader reader;
+
+   
         
     /**
      * convertTextToPDF
@@ -61,16 +62,17 @@ public class FileConverter {
      * @param src
      * @param des 
      */
-    
+    @Override
     public void convertTextToPDF(String src, String des)  {
-
+        System.err.println("test");
+        super.convertTextToPDF(src, des);
         try {
-           FileReader fr = new FileReader(src);
+         /*  FileReader fr = new FileReader(src);
             BufferedReader br = new BufferedReader(fr);
             Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(des));
-        writer.open();
-        document.open();
+        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(des));*/
+       writer.open();
+       document.open();
         String text="";
         while((text=br.readLine())!=null){
             document.add(new com.itextpdf.text.Paragraph(text));
@@ -87,12 +89,24 @@ public class FileConverter {
             FileReader fr = new FileReader(src);
             
             BufferedReader br = new BufferedReader(fr);
-            Document document = new Document(PageSize.A4);
+            Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(des));
+            
             writer.open();
             document.open();
+           
             Image image = Image.getInstance(src);
-            document.setPageSize(new Rectangle((float)image.getWidth(),(float)image.getHeight()));
+            
+                    Rectangle rectangle=new Rectangle( image.getWidth(), image.getHeight());
+            //document.setPageSize(r);
+                    writer.setPageSize(rectangle);
+                    System.err.println("widthO : "+image.getWidth());
+                    System.err.println("widthN : "+writer.getPageSize().getWidth());
+            float percent = (writer.getPageSize().getWidth()*100)/image.getWidth();
+            System.err.println("percent : "+percent);
+            image.scalePercent(percent/1.1f);
+            
+           // image.scaleAbsolute(document.getPageSize().getWidth(),document.getPageSize().getHeight());
             
            document.add(image);
            document.close();
@@ -118,11 +132,13 @@ public class FileConverter {
             System.out.println(ex.getMessage());
         }
     }
-        
-    synchronized public void ConvertPPTtoPDF(String src,String des) throws IOException, BadElementException, com.itextpdf.text.BadElementException, DocumentException{
-        
+     @Override
+    public void ConvertPPTtoPDF(String src,String des) {
+         System.err.println("PPT.....");
+         super.ConvertPPTtoPDF(src, des);
        
-        FileInputStream inputStream= new FileInputStream(src);
+        //FileInputStream inputStream= new FileInputStream(src);
+        
         
         double zoom = 2;
         AffineTransform at = new AffineTransform();
@@ -130,10 +146,12 @@ public class FileConverter {
         PdfPTable table = new PdfPTable(1);
         Image slideImage =null;
         
-        Document document = new Document();
-        PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(des));
+       // Document document = new Document();
+        //PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(des));
+        
         writer.open();
         document.open();
+        try{
         XMLSlideShow ppt = new XMLSlideShow(inputStream);
         Dimension pgSize=null;
         pgSize = ppt.getPageSize();
@@ -157,10 +175,49 @@ public class FileConverter {
             
            
         }
-        document.add(table);
+        }
+        catch(Exception e ){
+            System.err.println("exception");
+        }
+        try {
+            document.add(table);
+           
+        } catch (DocumentException ex) {
+               handleDocumentException(ex);
+//Logger.getLogger(FileConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         document.close();
         writer.close();
         
+    }
+
+    @Override
+    public void handleFileNotFoundException(FileNotFoundException e) {
+        System.err.println("Your File is not found");
+                FileConverter obj = new FileConverter();
+        FileChooser chooser = new FileChooser();
+      
+        
+        try {
+            chooser.selectTextFiles(obj);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FileConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @Override
+    public void handleDocumentException(DocumentException e) {
+        System.out.println("Document Exception");
+                FileConverter obj = new FileConverter();
+        FileChooser chooser = new FileChooser();
+      
+        
+        try {
+            chooser.selectTextFiles(obj);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(FileConverter.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     
