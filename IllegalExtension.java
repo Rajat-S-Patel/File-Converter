@@ -9,9 +9,11 @@ package OOP_PROJECT;
  *
  * @author Rajat
  */
-public interface Callback {
-    
-     public void taskCompleted(String extension);
-        
-    
+public class IllegalExtension extends Exception {
+    public IllegalExtension(String message){
+        super(message);
+    }
+    public IllegalExtension(){
+        super();
+    }
 }

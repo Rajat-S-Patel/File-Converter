@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package itextpdf_test;
+package OOP_PROJECT;
 
 import com.itextpdf.text.BadElementException;
 import java.io.IOException;
@@ -35,20 +35,23 @@ public class BackGroundTask implements Runnable,Callback {
             //System.out.println("txt to pdf conversion completed");
         }
         else if(extension.equals("docx")){
-            obj.ConvertToPDF(src, des);
+            obj.ConvertDocxToPdf(src, des);
             taskCompleted(extension);
 //System.out.println("docx to pdf conversion completed");
         }
         else if(extension.equals("jpg")){
-            try {
-                obj.ConvertImageToPDF(src, des);
+            
+                obj.convertImageToPDF(src, des);
                 System.out.println("jpg to pdf conversion successful");
-            } catch (BadElementException ex) {
-                Logger.getLogger(BackGroundTask.class.getName()).log(Level.SEVERE, null, ex);
+            
+            
+        }
+        else if(extension.equals("pdf")){
+            try {
+                obj.convertPdfToText(src, "F:/test.txt");
             } catch (IOException ex) {
                 Logger.getLogger(BackGroundTask.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }
         else{
             try {

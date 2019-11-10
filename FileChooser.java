@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package itextpdf_test;
+package OOP_PROJECT;
 
 import java.io.File;
 import java.util.Scanner;
@@ -26,12 +26,14 @@ public class FileChooser {
  * @author Rajat
  */
     
-        public void selectTextFiles(FileConverter c) throws InterruptedException {
+        public void selectFiles_GUI(FileConverter c,String filetype) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
         JFileChooser chooser = new JFileChooser();
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT", "docx", "txt","pptx","jpg");
+            System.out.println("extension : "+filetype);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("TEXT",filetype);
         chooser.setFileFilter(filter);
         chooser.setMultiSelectionEnabled(true);
+            System.err.println("1 : ");
         int returnVal = chooser.showOpenDialog(null);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File[] Files = chooser.getSelectedFiles();
@@ -45,13 +47,37 @@ public class FileChooser {
                 Runnable r=new BackGroundTask(c, extension, src, des);
                 Thread thread = new Thread(r);
                 thread.start();
-                //Thread.sleep(10);
+                Thread.sleep(50);
                 
-                // ConvertToPDF(Files[i].toString(),"F:/Temp"+i+".pdf");
+             
             }
-            // System.out.println("Conversion complete");
+            
         }
 
     }
+        
+        public void SelectFiles_manual(FileConverter c,String files[],String destination[]) throws InterruptedException{
+            File file[] = new File[files.length];
+            int i=0;
+            for(String f: files){
+                file[i]=new File(f);
+                i++;
+            }
+             System.out.println("Please wait...");
+            for (i = 0; i < file.length; i++) {
+                String src = file[i].toString();
+                //System.err.println("Enter name : ");
+               // String des = "F:/" + i + ".pdf";
+                String extension = src.substring(src.lastIndexOf(".") + 1);
+                //String des = "F:/temp.pdf";
+                Runnable r=new BackGroundTask(c, extension, src, destination[i]);
+                Thread thread = new Thread(r);
+                thread.start();
+                Thread.sleep(50);
+                
+                // ConvertToPDF(Files[i].toString(),"F:/Temp"+i+".pdf");
+            }
+            
+        }
     
 }
